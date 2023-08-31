@@ -27,6 +27,11 @@ namespace ADODay1_G2
         {
             GetAllData();
             GetTopic();
+
+            btn_add.Visible = true;
+            btn_delete.Visible = false;
+            btn_edit.Visible = false;
+
         }
         void GetAllData()
         {
@@ -47,9 +52,9 @@ namespace ADODay1_G2
                     Course course = new Course()
                     {
                         ID = (int)((reader["Crs_id"] == DBNull.Value) ? 0 : reader["Crs_id"]),
-                        TopID = (int)((reader["Top_id"] == DBNull.Value) ? 0 : reader["Top_id"]),
+                        Name = (string)((reader["Crs_Name"] == DBNull.Value) ? "" : reader["Crs_Name"]),
                         Duration = (int)((reader["Crs_Duration"] == DBNull.Value) ? 0 : reader["Crs_Duration"]),
-                        Name = (string)((reader["Crs_Name"] == DBNull.Value) ? "" : reader["Crs_Name"])
+                        TopID = (int)((reader["Top_id"] == DBNull.Value) ? 0 : reader["Top_id"])
                     };
                     coursesList.Add(course);
                 };
@@ -150,17 +155,58 @@ namespace ADODay1_G2
             }
             clear();
 
+
+        }
+        private void grid_course_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            DataGridViewRow row = grid_course.Rows[e.RowIndex];
+            if (row != null)
+            {
+                nud_CourseID.Value = (int)(row.Cells[0].Value);
+                txt_cname.Text = (string)(row.Cells[1].Value);
+                nud_CourseDur.Value = (int)(row.Cells[2].Value);
+                cb_topId.SelectedValue=(int)(row.Cells[3].Value);
+            }
+            btn_add.Visible = false;
+            btn_delete.Visible = true;
+            btn_edit.Visible = true;
+
         }
         private void btn_edit_Click(object sender, EventArgs e)
         {
             SqlCommand cmd = connection.CreateCommand();
             cmd.CommandText = "update Course set  Crs_Name=@Cname, Crs_Duration=@Cduration , Top_Id=@Tid where Crs_Id=@Cid";
-            cmd.Parameters.AddWithValue("Cname",txt_cname.Text);
+            cmd.Parameters.AddWithValue("Cname", txt_cname.Text);
             cmd.Parameters.AddWithValue("Cduration", nud_CourseDur.Value);
             cmd.Parameters.AddWithValue("Tid", cb_topId.SelectedValue);
             cmd.Parameters.AddWithValue("Cid", nud_CourseID.Value);
 
+            int rowsEffected = 0;
+            try
+            {
+                connection.Open();
+                rowsEffected = cmd.ExecuteNonQuery();
 
+            }
+            catch (Exception)
+            {
+                MessageBox.Show(" Invalid Inputs");
+            }
+            finally
+            {
+                connection.Close();
+            }
+            if (rowsEffected > 0)
+            {
+                MessageBox.Show($"{rowsEffected}Row Effected");
+                GetAllData();
+            }
+            clear();
+
+
+            btn_add.Visible = true;
+            btn_delete.Visible = false;
+            btn_edit.Visible = false;
 
         }
         private void btn_delete_Click(object sender, EventArgs e)
@@ -188,6 +234,10 @@ namespace ADODay1_G2
                 GetAllData();
             }
             clear();
+
+            btn_add.Visible = true;
+            btn_delete.Visible = false;
+            btn_edit.Visible = false;
 
         }
 

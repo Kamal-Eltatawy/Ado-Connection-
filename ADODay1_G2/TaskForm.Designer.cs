@@ -140,6 +140,7 @@
             grid_course.RowTemplate.Height = 29;
             grid_course.Size = new Size(791, 249);
             grid_course.TabIndex = 28;
+            grid_course.RowHeaderMouseDoubleClick += grid_course_RowHeaderMouseDoubleClick;
             // 
             // label1
             // 
