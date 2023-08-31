@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ADODay1_G2
+namespace AdoConnection
 {
     internal class Course
     {
@@ -12,6 +12,5 @@ namespace ADODay1_G2
         public string Name { get; set; }
         public int Duration { get; set; }
         public int TopID { get; set; }
-
     }
 }

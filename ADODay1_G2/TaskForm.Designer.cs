@@ -1,4 +1,4 @@
-﻿namespace ADODay1_G2
+﻿namespace AdoConnection
 {
     partial class TaskForm
     {

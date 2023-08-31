@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Data.SqlClient;
-namespace ADODay1_G2
+namespace AdoConnection
 {
     public partial class TaskForm : Form
     {
